@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+  <meta charset=UTF-8>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes | <%= title %></title>
+</head>
+
+<body>
+  <nav>
+    <div class="site-title">
+      <a href="/"><h1>Notes</h1></a>
+      <p>A notes app</p>
+    </div>
+    <ul>
+      <li><a href="/">Notes</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/notes/create">New Note</a></li>
+    </ul>
+  </nav>
+
+  <div class="notes content">
+    <h2><%=note.title%></h2>
+    <div class="content">
+        <p> <%= note.desc%> </p>
+    </div>
+    <button class="delete" data-doc="<%= note._id%>">delete</button>
+  </div>
+
+  <script>
+    const trashcan = document.querySelector('.delete');
+    trashcan.addEventListener('click', (e)=> {
+      const endpoint = `/notes/${trashcan.dataset.doc}`;
+      fetch(endpoint, {
+        method: "DELETE"
+      })
+      .then((response) => response.json())
+      .then((data) => window.location.href = data.redirect)
+      .catch(err => console.log(err));
+    })
+  </script>
+</body>
+</html>
